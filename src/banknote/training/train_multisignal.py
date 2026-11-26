@@ -29,6 +29,7 @@ from src.banknote.ingest.multistream_data_loader import (
     write_split_manifest,
 )
 from src.banknote.models.multisignal_cnn import MultiSignalCNN
+from src.banknote.models.signal_ablation_cnn import SignalAblationCNN
 
 
 def parse_args():
@@ -48,6 +49,13 @@ def parse_args():
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--learning-rate", type=float, default=0.001)
     parser.add_argument("--image-size", type=int, default=224)
+    parser.add_argument(
+        "--signals",
+        nargs="+",
+        choices=("rgb", "edges", "texture"),
+        default=("rgb", "edges", "texture"),
+        help="Signals used by the concatenation ablation.",
+    )
     return parser.parse_args()
 
 
@@ -137,6 +145,9 @@ def main():
         raise ValueError("epochs, batch-size, and image-size must be positive")
     if args.learning_rate <= 0:
         raise ValueError("learning-rate must be positive")
+    if not args.signals or len(set(args.signals)) != len(args.signals):
+        raise ValueError("signals must be non-empty and contain no duplicates")
+    selected_signals = tuple(args.signals)
 
     set_seed(args.seed)
     dataset_dir = (
@@ -171,7 +182,13 @@ def main():
     write_split_manifest(dataset_dir, run_dir / "split_manifest.csv")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = MultiSignalCNN(num_classes=2).to(device)
+    if selected_signals == ("rgb", "edges", "texture"):
+        model = MultiSignalCNN(num_classes=2)
+        architecture = "MultiSignalCNN"
+    else:
+        model = SignalAblationCNN(signals=selected_signals, num_classes=2)
+        architecture = "SignalAblationCNN"
+    model = model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.learning_rate)
 
@@ -182,6 +199,9 @@ def main():
         "batch_size": args.batch_size,
         "learning_rate": args.learning_rate,
         "image_size": args.image_size,
+        "architecture": architecture,
+        "signals": list(selected_signals),
+        "fusion": "concatenation",
         "preprocessing_cache": (
             str(args.cache_dir.resolve()) if args.cache_dir is not None else None
         ),

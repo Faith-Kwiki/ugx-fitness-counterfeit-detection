@@ -59,3 +59,19 @@ python -m src.banknote.training.train_multisignal --cache-dir "data/processed/st
 The run uses training and validation data only. It saves its configuration, history, split manifest, and checkpoints in runs/multisignal/<run-id>/. The existing trainer refuses to overwrite a run folder with the same ID.
 
 The dataset, virtual environment, preprocessing cache, and checkpoint files are not pushed to GitHub. The other desktop must receive the dataset separately.
+
+## Run the core ablation on a Windows GPU desktop
+
+After the GPU PyTorch install is verified, copy the dataset into data/raw/ and run this from the repository root:
+
+~~~powershell
+.\scripts\run_core_ablation.ps1
+~~~
+
+The runner prepares the train and validation cache, then launches four separate runs: RGB, RGB + edges, RGB + texture, and RGB + edges + texture. Defaults are seed 42, 15 epochs, batch size 8, and learning rate 0.001. You can override them, for example:
+
+~~~powershell
+.\scripts\run_core_ablation.ps1 -Seed 43 -Epochs 20 -BatchSize 16 -LearningRate 0.0001
+~~~
+
+Each run gets its own timestamped folder. The runner stops if CUDA is unavailable or a run fails. It does not score the held-out test split.
