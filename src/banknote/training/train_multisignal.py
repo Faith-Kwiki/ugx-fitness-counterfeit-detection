@@ -14,6 +14,7 @@ import os
 import random
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -176,7 +177,7 @@ def main():
     run_dir = Path(args.runs_dir) / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     (run_dir / "history.csv").write_text(
-        "epoch,train_loss,train_accuracy,val_loss,val_accuracy,is_best\n",
+        "epoch,train_loss,train_accuracy,val_loss,val_accuracy,epoch_seconds,is_best\n",
         encoding="utf-8",
     )
     write_split_manifest(dataset_dir, run_dir / "split_manifest.csv")
@@ -200,8 +201,18 @@ def main():
         "learning_rate": args.learning_rate,
         "image_size": args.image_size,
         "architecture": architecture,
+        "device_name": torch.cuda.get_device_name(0) if device.type == "cuda" else "CPU",
+        "total_parameters": sum(parameter.numel() for parameter in model.parameters()),
+        "trainable_parameters": sum(
+            parameter.numel() for parameter in model.parameters()
+            if parameter.requires_grad
+        ),
+        "model": "multisignal_concat" if architecture == "MultiSignalCNN" else "signal_ablation",
         "signals": list(selected_signals),
         "fusion": "concatenation",
+        "optimizer": "Adam",
+        "scheduler": None,
+        "class_mapping": {"counterfeit": 0, "genuine": 1},
         "preprocessing_cache": (
             str(args.cache_dir.resolve()) if args.cache_dir is not None else None
         ),
@@ -242,12 +253,14 @@ def main():
 
     try:
         for epoch in range(1, args.epochs + 1):
+            epoch_start = time.perf_counter()
             train_loss, train_accuracy = train_epoch(
                 model, train_loader, criterion, optimizer, device
             )
             val_loss, val_accuracy = evaluate_validation(
                 model, validation_loader, criterion, device
             )
+            epoch_seconds = time.perf_counter() - epoch_start
             is_best = val_loss < best_val_loss
             if is_best:
                 best_val_loss = val_loss
@@ -258,6 +271,7 @@ def main():
                 "train_accuracy": train_accuracy,
                 "val_loss": val_loss,
                 "val_accuracy": val_accuracy,
+                "epoch_seconds": epoch_seconds,
                 "is_best": is_best,
             }
             with history_path.open("a", newline="", encoding="utf-8") as handle:
@@ -288,7 +302,8 @@ def main():
             print(
                 f"Epoch {epoch:02d}/{args.epochs} | "
                 f"train loss {train_loss:.4f}, acc {train_accuracy:.4f} | "
-                f"val loss {val_loss:.4f}, acc {val_accuracy:.4f}"
+                f"val loss {val_loss:.4f}, acc {val_accuracy:.4f}, "
+                f"{epoch_seconds:.2f}s"
                 f"{' | best checkpoint updated' if is_best else ''}"
             )
 

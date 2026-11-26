@@ -31,6 +31,7 @@ if [ "$dataset_count" -ne 1 ]; then
     exit 1
 fi
 dataset_dir="$(find data/raw -mindepth 2 -maxdepth 2 -type d -name labelled_ugandan_banknote_dataset_clean -print -quit)"
+"$python_exe" -m src.banknote.validation.validate_splits --dataset-dir "$dataset_dir"
 for split in train_set validation_set test_set; do
     for class_name in counterfeit genuine; do
         class_path="$dataset_dir/splits/$split/$class_name"
