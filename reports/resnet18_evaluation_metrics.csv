@@ -1,0 +1,8 @@
+Metric,Score
+Accuracy,0.8691588785046729
+Precision_Genuine,0.8529411764705882
+Recall_Genuine,0.87
+F1_Genuine,0.8613861386138614
+Balanced_Accuracy,0.8692105263157894
+Matthews_Correlation_Coefficient,0.7376449924564416
+ROC_AUC,0.9552631578947368

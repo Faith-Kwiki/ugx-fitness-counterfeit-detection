@@ -1,0 +1,29 @@
+# Virtual environment
+.venv/
+__pycache__/
+*.pyc
+
+# Raw and processed datasets
+data/
+
+# Model checkpoints (exceeds GitHub 100MB limit)
+models/*.pth
+models/*.pt
+models/*.onnx
+models/*.h5
+.venv/
+__pycache__/
+*.pyc
+data/
+models/*.pth
+models/*.pt
+models/*.onnx
+models/*.h5
+*.jpg
+*.jpeg
+*.png
+*.pth
+*.pt
+*.onnx
+*.h5
+*checkpoint*

@@ -1,0 +1,20 @@
+import matplotlib.pyplot as plt
+from pathlib import Path
+from PIL import Image
+import random
+
+PROJECT_PATH = Path(
+    "/content/drive/MyDrive/ugx-banknote-prototype"
+)
+k
+DATASET_PATH = next(
+    PROJECT_PATH.glob(
+        "data/raw/Ugandan banknote*/labelled_ugandan_banknote_dataset_clean"
+    )
+)
+
+genuine_folder = DATASET_PATH / "all_images" / "genuine"
+counterfeit_folder = DATASET_PATH / "all_images" / "counterfeit"
+
+print("Genuine images:", len(list(genuine_folder.glob("*"))))
+print("Counterfeit images:", len(list(counterfeit_folder.glob("*"))))

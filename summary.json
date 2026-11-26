@@ -1,0 +1,8 @@
+{
+  "best_epoch": 2,
+  "best_val_accuracy": 0.8551401869158879,
+  "best_val_loss": 0.31613055191864475,
+  "last_completed_epoch": 4,
+  "run_id": "concat-seed42",
+  "status": "running"
+}

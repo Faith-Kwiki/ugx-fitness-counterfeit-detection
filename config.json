@@ -1,0 +1,19 @@
+{
+  "batch_size": 8,
+  "dataset_folder_name": "labelled_ugandan_banknote_dataset_clean",
+  "device": "cuda",
+  "epochs_requested": 15,
+  "image_size": 224,
+  "learning_rate": 0.001,
+  "numpy_version": "2.4.6",
+  "opencv_version": "4.14.0",
+  "python_version": "3.13.16",
+  "run_id": "concat-seed42",
+  "seed": 42,
+  "selection_rule": "lowest validation cross-entropy loss",
+  "split_manifest": "split_manifest.csv",
+  "test_set_used_for_training_or_selection": false,
+  "torch_version": "2.14.1+cu130",
+  "train_images": 998,
+  "validation_images": 214
+}
