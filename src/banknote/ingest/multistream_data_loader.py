@@ -6,6 +6,7 @@ import hashlib
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, Dataset
+from src.banknote.preprocessing.cache_streams import stream_cache_path
 
 from src.banknote.preprocessing.prepare_streams import (
     prepare_banknote_streams,
@@ -40,13 +41,14 @@ def find_dataset_dir(data_root=Path("data/raw")):
 class MultiStreamBanknoteDataset(Dataset):
     """Load one image as aligned RGB, edge, and LBP tensors."""
 
-    def __init__(self, dataset_dir, split, target_size=224):
+    def __init__(self, dataset_dir, split, target_size=224, cache_dir=None):
         if split not in SPLIT_NAMES:
             raise ValueError(f"Unknown split: {split}")
 
         self.dataset_dir = Path(dataset_dir)
         self.split = split
         self.target_size = target_size
+        self.cache_dir = Path(cache_dir) if cache_dir is not None else None
         self.samples = []
 
         split_dir = self.dataset_dir / "splits" / split
@@ -60,7 +62,17 @@ class MultiStreamBanknoteDataset(Dataset):
 
             for image_path in sorted(class_dir.iterdir()):
                 if image_path.is_file() and image_path.suffix.lower() in IMAGE_EXTENSIONS:
-                    self.samples.append((image_path, label))
+                    cache_path = None
+                    if self.cache_dir is not None:
+                        cache_path = stream_cache_path(
+                            image_path, self.cache_dir, target_size
+                        )
+                        if not cache_path.is_file():
+                            raise FileNotFoundError(
+                                f"Missing cached streams for {image_path}. "
+                                "Precompute the selected split first."
+                            )
+                    self.samples.append((image_path, label, cache_path))
 
         if not self.samples:
             raise ValueError(f"No supported images found in {split_dir}")
@@ -69,10 +81,17 @@ class MultiStreamBanknoteDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, index):
-        image_path, label = self.samples[index]
-        streams = prepare_banknote_streams(
-            str(image_path), target_size=self.target_size
-        )
+        image_path, label, cache_path = self.samples[index]
+        if cache_path is None:
+            streams = prepare_banknote_streams(
+                str(image_path), target_size=self.target_size
+            )
+        else:
+            with np.load(cache_path, allow_pickle=False) as cached:
+                streams = {
+                    name: cached[name].copy()
+                    for name in ("rgb", "edges", "texture")
+                }
 
         rgb = torch.from_numpy(
             np.ascontiguousarray(streams["rgb"].transpose(2, 0, 1))
@@ -95,14 +114,14 @@ class MultiStreamBanknoteDataset(Dataset):
 
 
 def create_multistream_loaders(
-    dataset_dir, batch_size=8, seed=42, target_size=224
+    dataset_dir, batch_size=8, seed=42, target_size=224, cache_dir=None
 ):
     """Create reproducibly shuffled training and unshuffled validation loaders."""
     train_dataset = MultiStreamBanknoteDataset(
-        dataset_dir, "train_set", target_size
+        dataset_dir, "train_set", target_size, cache_dir=cache_dir
     )
     validation_dataset = MultiStreamBanknoteDataset(
-        dataset_dir, "validation_set", target_size
+        dataset_dir, "validation_set", target_size, cache_dir=cache_dir
     )
 
     generator = torch.Generator()

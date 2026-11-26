@@ -36,6 +36,12 @@ def parse_args():
     parser.add_argument("--dataset-dir", type=Path, default=None)
     parser.add_argument("--data-root", type=Path, default=Path("data/raw"))
     parser.add_argument("--runs-dir", type=Path, default=Path("runs/multisignal"))
+    parser.add_argument(
+        "--cache-dir",
+        type=Path,
+        default=None,
+        help="Optional precomputed RGB/edge/texture cache directory.",
+    )
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--epochs", type=int, default=15)
@@ -152,6 +158,7 @@ def main():
             batch_size=args.batch_size,
             seed=args.seed,
             target_size=args.image_size,
+            cache_dir=args.cache_dir,
         )
     )
 
@@ -175,6 +182,9 @@ def main():
         "batch_size": args.batch_size,
         "learning_rate": args.learning_rate,
         "image_size": args.image_size,
+        "preprocessing_cache": (
+            str(args.cache_dir.resolve()) if args.cache_dir is not None else None
+        ),
         "dataset_folder_name": dataset_dir.name,
         "train_images": len(train_dataset),
         "validation_images": len(validation_dataset),
