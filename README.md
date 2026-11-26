@@ -3,75 +3,67 @@
 The current code trains a counterfeit-versus-genuine banknote classifier.
 The fitness task is still planned and needs its own definition and labels.
 
-## Set up the environment on Windows
+## Set up the environment on Linux
 
 Use Python 3.12 for the tested project setup. From the repository root:
 
-~~~powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+~~~bash
+python3.12 -m venv .venv
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ~~~
 
-The requirements file pins the project package versions. On the GPU desktop,
-install or replace PyTorch with a CUDA-enabled build matched to that computer:
+The requirements file pins the project package versions. On the Alienware,
+install or replace PyTorch with a CUDA-enabled build matched to its NVIDIA GPU.
+Use the [official PyTorch installer selector](https://pytorch.org/get-started/locally/),
+choose Linux, Pip, Python, and a CUDA option supported by the computer, then
+run the command it provides.
 
-- **NVIDIA GPU:** open the [official PyTorch installer selector](https://pytorch.org/get-started/locally/), choose Windows, Pip, Python, and a CUDA option supported by that computer, then run the command it provides.
-- **CPU only:** the regular requirements installation is sufficient.
+Check the PyTorch build:
 
-Check that the selected PyTorch build sees the GPU:
-
-~~~powershell
+~~~bash
 python -c "import torch; print(torch.__version__); print(torch.cuda.is_available())"
 ~~~
 
-For the training desktop, torch.cuda.is_available() should print True.
+For GPU training, the final value should be True.
 
 ## Dataset
 
-The raw dataset is intentionally excluded from Git. Copy it separately to:
-
-~~~text
-data/raw/Ugandan banknote image dataset for genuine and cou/labelled_ugandan_banknote_dataset_clean/
-~~~
-
-It should contain splits/train_set, splits/validation_set, and splits/test_set, each with counterfeit and genuine subfolders. Keep the held-out test split out of model selection.
+The raw dataset is intentionally excluded from Git. Copy it separately under
+data/raw/. It should contain one labelled_ugandan_banknote_dataset_clean
+folder with splits/train_set, splits/validation_set, and splits/test_set, each
+containing counterfeit and genuine subfolders. Keep the held-out test split
+out of model selection.
 
 ## Optional multi-signal preprocessing cache
 
-The RGB, edge, and LBP streams are deterministic, so they can be precomputed once and reused. From the repository root:
+The RGB, edge, and LBP streams are deterministic, so they can be precomputed
+once and reused. The runner below builds the cache automatically for training
+and validation. Cache files go under data/processed/, which is ignored by Git.
+The test split is not cached by the runner.
 
-~~~powershell
-python -m src.banknote.preprocessing.cache_streams --dataset-dir "data/raw/Ugandan banknote image dataset for genuine and cou/labelled_ugandan_banknote_dataset_clean"
+## Run the core ablation on the GPU desktop
+
+From the repository root, after installing CUDA-enabled PyTorch and copying
+the dataset into data/raw/:
+
+~~~bash
+bash scripts/run_core_ablation.sh
 ~~~
 
-By default, this prepares training and validation only. Cache files are written under data/processed/, which is ignored by Git. The test split remains untouched unless explicitly requested.
+This runs four separate conditions: RGB, RGB + edges, RGB + texture, and RGB +
+edges + texture. Defaults are seed 42, 15 epochs, batch size 8, and learning
+rate 0.001. To override these settings, pass seed, epochs, batch size, and
+learning rate in that order:
 
-## Start a training run
-
-Use a new run ID for each experiment:
-
-~~~powershell
-python -m src.banknote.training.train_multisignal --cache-dir "data/processed/streams_v1_224" --run-id "concat-cache-seed42-run01" --seed 42 --epochs 15 --batch-size 8 --learning-rate 0.001
+~~~bash
+bash scripts/run_core_ablation.sh 43 20 16 0.0001
 ~~~
 
-The run uses training and validation data only. It saves its configuration, history, split manifest, and checkpoints in runs/multisignal/<run-id>/. The existing trainer refuses to overwrite a run folder with the same ID.
+Each run gets a timestamped folder. The runner stops if CUDA or the required
+dataset folders are missing, or if an experiment fails. It does not evaluate
+the held-out test split.
 
-The dataset, virtual environment, preprocessing cache, and checkpoint files are not pushed to GitHub. The other desktop must receive the dataset separately.
-
-## Run the core ablation on a Windows GPU desktop
-
-After the GPU PyTorch install is verified, copy the dataset into data/raw/ and run this from the repository root:
-
-~~~powershell
-.\scripts\run_core_ablation.ps1
-~~~
-
-The runner prepares the train and validation cache, then launches four separate runs: RGB, RGB + edges, RGB + texture, and RGB + edges + texture. Defaults are seed 42, 15 epochs, batch size 8, and learning rate 0.001. You can override them, for example:
-
-~~~powershell
-.\scripts\run_core_ablation.ps1 -Seed 43 -Epochs 20 -BatchSize 16 -LearningRate 0.0001
-~~~
-
-Each run gets its own timestamped folder. The runner stops if CUDA is unavailable or a run fails. It does not score the held-out test split.
+The dataset, virtual environment, preprocessing cache, and checkpoint files
+are not pushed to GitHub. The other desktop must receive the dataset separately.

@@ -4,7 +4,7 @@
 
 - The multi-signal trainer writes each run to a unique folder and records its configuration, history, validation summary, split manifest, and checkpoint.
 - The optional preprocessing cache stores deterministic RGB, edge, and LBP arrays for the train and validation splits.
-- scripts/run_core_ablation.ps1 checks CUDA, the dataset, and run folders, builds the cache, then runs four seed-matched conditions:
+- scripts/run_core_ablation.sh checks CUDA, the dataset, and run folders, builds the cache, then runs four seed-matched conditions:
   1. RGB
   2. RGB + edges
   3. RGB + texture
