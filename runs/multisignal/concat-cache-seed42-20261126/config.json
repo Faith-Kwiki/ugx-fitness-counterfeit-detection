@@ -1,0 +1,20 @@
+{
+  "batch_size": 8,
+  "dataset_folder_name": "labelled_ugandan_banknote_dataset_clean",
+  "device": "cpu",
+  "epochs_requested": 15,
+  "image_size": 224,
+  "learning_rate": 0.001,
+  "numpy_version": "2.5.4",
+  "opencv_version": "5.0.0",
+  "preprocessing_cache": "C:\\Users\\FAITH\\Desktop\\ugx-fitness-counterfeit-detection\\data\\processed\\streams_v1_224",
+  "python_version": "3.12.3",
+  "run_id": "concat-cache-seed42-20261126",
+  "seed": 42,
+  "selection_rule": "lowest validation cross-entropy loss",
+  "split_manifest": "split_manifest.csv",
+  "test_set_used_for_training_or_selection": false,
+  "torch_version": "2.15.0+cpu",
+  "train_images": 998,
+  "validation_images": 214
+}

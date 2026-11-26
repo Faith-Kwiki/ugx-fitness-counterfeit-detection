@@ -1,0 +1,8 @@
+{
+  "best_epoch": null,
+  "best_val_accuracy": null,
+  "best_val_loss": null,
+  "last_completed_epoch": 0,
+  "run_id": "concat-cache-seed42-20261126",
+  "status": "interrupted"
+}
