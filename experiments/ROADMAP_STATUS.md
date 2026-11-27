@@ -16,7 +16,8 @@
 - `uncertain` means the visible evidence for that tag is unclear. It is masked during training and is not treated as a negative label.
 - The annotation guide defines visible image-level conditions; these labels are not an official Bank of Uganda fitness rating and do not yet define one joint fitness class.
 - Current train/validation counts show only 24 positive torn labels in training and 9 in validation. Tear-head results therefore need cautious interpretation and more reviewed examples before strong claims.
-- `annotations/condition_spot_review_blind.csv` and `annotations/condition_spot_review_key.csv` prepare a blinded, 39-image validation-only spot-review. The packet includes all 9 torn-positive validation images, 9 torn-negative images balanced across authenticity labels, and stratified examples of the other conditions. No annotations have been changed by this preparation; a person still needs to complete the blind review and resolve disagreements.
+- The 39-image blinded validation spot-review is complete. All 156 condition decisions have `yes`, `no`, or `uncertain` values, with reviewer confidence captured. The blind-review CSV now contains the submitted labels and comments; `annotations/condition_spot_review_disagreements.csv` records the 58 differences from the previous labels: 24 soiled, 15 creased, 5 torn, and 14 folded. For the reviewed images, the human labels now replace the earlier values in the main annotation CSV; uncertain values remain masked during training. Authenticity labels, image paths, and split assignments were left unchanged.
+- After the review, validation condition counts are: soiled 58 yes / 106 no / 50 uncertain; creased 173 / 15 / 26; torn 12 / 181 / 21; folded 152 / 34 / 28. The number of known torn-positive validation examples increased from 9 to 12, but remains small.
 
 ## Integrated multi-task model
 
@@ -40,6 +41,6 @@
 
 - Optional W&B tracking is not enabled. Local run folders already record metrics and configuration; W&B would send selected metadata to an external service and should only be enabled deliberately.
 - The four visible condition outputs are a first fitness-related signal. A single fitness class still needs an agreed definition and, if required by the research question, an authoritative rating guide and labels.
-- Complete the prepared validation spot-review, compare it with the separate key, resolve disagreements, and update affected annotations. Then assess whether annotation revisions change the validation results. Keep the test split sealed until the model and thresholds are selected.
+- Recalculate validation metrics for the selected checkpoints against the reviewed labels before considering retraining or threshold changes. This validation-only reassessment is pending because PyTorch could not load in the current Windows session (`WinError 1455`: paging file too small). No test evaluation was run; keep the test split sealed until the model and thresholds are selected.
 
 Attention is implemented as a candidate for comparison, not proof that it improves performance. Compare it with hybrid concatenation using the same seed and settings. Use validation results for selection; reserve test metrics for final reporting.
