@@ -1,0 +1,98 @@
+{
+  "annotations_csv": "annotations/prototype_fitness_prelabels.csv",
+  "architecture": "FitnessMultiTaskMultiSignalCNN",
+  "authenticity_loss_weight": 0.25,
+  "batch_size": 8,
+  "cache_dir": "data/processed/streams_v1_224",
+  "condition_loss_weight": 0.25,
+  "dataset_dir": "data/raw/Ugandan banknote image dataset for genuine and cou/labelled_ugandan_banknote_dataset_clean",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "epochs_requested": 15,
+  "fitness_loss_class_weights": {
+    "fit": 0.5857558250427246,
+    "unfit": 3.4152543544769287
+  },
+  "fitness_loss_weight": 0.25,
+  "image_size": 224,
+  "label_provenance": "low-confidence rule-based prelabels derived from existing condition tags and notes",
+  "learning_rate": 0.001,
+  "numpy_version": "2.5.4",
+  "outcome_loss_class_weights": {
+    "counterfeit": 0.585839569568634,
+    "genuine_fit": 0.9060077667236328,
+    "genuine_unfit": 5.2824859619140625
+  },
+  "output_heads": {
+    "authenticity": [
+      "counterfeit",
+      "genuine"
+    ],
+    "condition_severity": {
+      "creased": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "folded": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "soiled": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "torn": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ]
+    },
+    "conditions": [
+      "soiled",
+      "creased",
+      "torn",
+      "folded"
+    ],
+    "genuine_fitness": [
+      "fit",
+      "unfit"
+    ],
+    "joint_outcome_policy": "counterfeit if authenticity head predicts counterfeit; otherwise use the genuine fitness head"
+  },
+  "review_required_rows_excluded": true,
+  "run_id": "prototype-fitness-policy-seed42-20261127",
+  "seed": 42,
+  "selection_rule": "lowest weighted validation joint-outcome loss; no test-set selection",
+  "severity_loss_weight": 0.25,
+  "shared_signals": [
+    "rgb",
+    "edges",
+    "texture"
+  ],
+  "test_set_used_for_training_or_selection": false,
+  "torch_version": "2.14.1+cu130",
+  "total_parameters": 98648,
+  "train_images": 935,
+  "training_genuine_fitness_counts": {
+    "fit": 344,
+    "unfit": 59
+  },
+  "training_outcome_counts": {
+    "counterfeit": 532,
+    "genuine_fit": 344,
+    "genuine_unfit": 59
+  },
+  "validation_images": 192,
+  "validation_outcome_counts": {
+    "counterfeit": 114,
+    "genuine_fit": 62,
+    "genuine_unfit": 16
+  }
+}
