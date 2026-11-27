@@ -1,0 +1,78 @@
+{
+  "annotations_csv": "C:\\Users\\clare\\.codex\\worktrees\\ugx-condition-multitask\\ugx-fitness-counterfeit-detection\\annotations\\condition_labels_template.csv",
+  "architecture": "MultiTaskMultiSignalCNN",
+  "batch_size": 8,
+  "condition_loss_weight": 1.0,
+  "condition_positive_weights": {
+    "creased": 0.4288194477558136,
+    "folded": 1.0862470865249634,
+    "soiled": 2.3966245651245117,
+    "torn": 20.0
+  },
+  "condition_values": {
+    "no": 0,
+    "uncertain": "masked",
+    "yes": 1
+  },
+  "dataset_folder_name": "labelled_ugandan_banknote_dataset_clean",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "epochs_requested": 15,
+  "image_size": 224,
+  "learning_rate": 0.001,
+  "max_pos_weight": 20.0,
+  "numpy_version": "2.5.4",
+  "opencv_version": "5.0.0",
+  "optimizer": "Adam",
+  "output_heads": {
+    "authenticity": [
+      "counterfeit",
+      "genuine"
+    ],
+    "conditions": [
+      "soiled",
+      "creased",
+      "torn",
+      "folded"
+    ]
+  },
+  "preprocessing_cache": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\data\\processed\\streams_v1_224",
+  "python_version": "3.12.14",
+  "run_id": "condition-human-review-seed43-20261127",
+  "seed": 43,
+  "selection_rule": "lowest combined validation loss",
+  "shared_signals": [
+    "rgb",
+    "edges",
+    "texture"
+  ],
+  "split_manifest": "split_manifest.csv",
+  "test_set_used_for_training_or_selection": false,
+  "torch_version": "2.14.1+cu130",
+  "total_parameters": 96326,
+  "train_images": 998,
+  "trainable_parameters": 96326,
+  "training_condition_counts": {
+    "creased": {
+      "no": 247,
+      "uncertain": 175,
+      "yes": 576
+    },
+    "folded": {
+      "no": 466,
+      "uncertain": 103,
+      "yes": 429
+    },
+    "soiled": {
+      "no": 568,
+      "uncertain": 193,
+      "yes": 237
+    },
+    "torn": {
+      "no": 824,
+      "uncertain": 150,
+      "yes": 24
+    }
+  },
+  "validation_images": 214
+}

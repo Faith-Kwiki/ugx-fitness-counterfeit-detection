@@ -125,19 +125,20 @@ evaluation has been run for this model.
 
 ## Final test evaluation
 
-After choosing final models from validation results, prepare the test cache
-and evaluate each selected run on the held-out test set:
+After choosing a completed multi-task checkpoint from validation results,
+prepare the test cache and evaluate that checkpoint on the held-out test set:
 
 ~~~bash
-python -m src.banknote.preprocessing.cache_streams --dataset-dir data/raw/source-folder/labelled_ugandan_banknote_dataset_clean --splits test_set
-python -m src.banknote.evaluation.evaluate_checkpoint --run-dir runs/research/SELECTED_RUN_ID --cache-dir data/processed/streams_v1_224 --confirm-final-selection
+python -m src.banknote.preprocessing.cache_streams --dataset-dir "data/raw/source-folder/labelled_ugandan_banknote_dataset_clean" --cache-dir data/processed/streams_v1_224 --splits test_set
+python -m src.banknote.evaluation.evaluate_checkpoint --run-dir runs/multitask/SELECTED_RUN_ID --dataset-dir "data/raw/source-folder/labelled_ugandan_banknote_dataset_clean" --annotations-csv annotations/condition_labels_template.csv --cache-dir data/processed/streams_v1_224 --split test_set --confirm-final-selection
 ~~~
 
-The evaluator only accepts a completed run, requires both classes in the
-test split, and refuses to overwrite an existing report unless --allow-rerun
-is explicitly supplied. It writes accuracy, counterfeit precision/recall/F1,
-counterfeit false-acceptance rate, genuine false-rejection rate, balanced
-accuracy, MCC, ROC-AUC, and a confusion-matrix image into the run folder.
+The evaluator only accepts a completed run, requires explicit final-selection
+confirmation, and refuses to overwrite an existing report unless --allow-rerun
+is explicitly supplied. It writes counterfeit accuracy, precision, recall,
+F1, balanced accuracy, MCC, ROC-AUC, all four condition-head metrics, and a
+confusion-matrix image into the run folder. Review the condition labels before
+making strong claims about their test scores.
 
 
 ## Analyze hybrid attention weights

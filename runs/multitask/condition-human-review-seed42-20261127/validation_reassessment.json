@@ -1,0 +1,107 @@
+{
+  "authenticity_counterfeit_positive": {
+    "accuracy": 0.8878504672897196,
+    "balanced_accuracy": 0.8898245614035087,
+    "confusion_matrix": {
+      "fn": 16,
+      "fp": 8,
+      "tn": 92,
+      "tp": 98
+    },
+    "f1": 0.8909090909090909,
+    "known_count": 214,
+    "matthews_correlation_coefficient": 0.7780129213754173,
+    "negative_count": 100,
+    "positive_count": 114,
+    "precision": 0.9245283018867925,
+    "recall": 0.8596491228070176,
+    "roc_auc": 0.9591228070175438,
+    "specificity": 0.92,
+    "threshold": 0.5
+  },
+  "checkpoint": "runs/multitask/condition-human-review-seed42-20261127/best_checkpoint.pth",
+  "condition_labels_are_human_spot_reviewed": false,
+  "condition_metrics_note": "Only the 39-image spot-review sample has human-reviewed labels; other validation condition labels come from the earlier annotation pass.",
+  "conditions": {
+    "creased": {
+      "accuracy": 0.5851063829787234,
+      "average_precision": 0.9692227320315776,
+      "confusion_matrix": {
+        "fn": 75,
+        "fp": 3,
+        "tn": 12,
+        "tp": 98
+      },
+      "f1": 0.7153284671532847,
+      "known_count": 188,
+      "negative_count": 15,
+      "positive_count": 173,
+      "precision": 0.9702970297029703,
+      "recall": 0.5664739884393064,
+      "specificity": 0.8,
+      "threshold": 0.5
+    },
+    "folded": {
+      "accuracy": 0.5591397849462365,
+      "average_precision": 0.8593531371824356,
+      "confusion_matrix": {
+        "fn": 68,
+        "fp": 14,
+        "tn": 20,
+        "tp": 84
+      },
+      "f1": 0.672,
+      "known_count": 186,
+      "negative_count": 34,
+      "positive_count": 152,
+      "precision": 0.8571428571428571,
+      "recall": 0.5526315789473685,
+      "specificity": 0.5882352941176471,
+      "threshold": 0.5
+    },
+    "soiled": {
+      "accuracy": 0.6524390243902439,
+      "average_precision": 0.4865387828981908,
+      "confusion_matrix": {
+        "fn": 35,
+        "fp": 22,
+        "tn": 84,
+        "tp": 23
+      },
+      "f1": 0.44660194174757284,
+      "known_count": 164,
+      "negative_count": 106,
+      "positive_count": 58,
+      "precision": 0.5111111111111111,
+      "recall": 0.39655172413793105,
+      "specificity": 0.7924528301886793,
+      "threshold": 0.5
+    },
+    "torn": {
+      "accuracy": 0.5595854922279793,
+      "average_precision": 0.3137432846734359,
+      "confusion_matrix": {
+        "fn": 1,
+        "fp": 84,
+        "tn": 97,
+        "tp": 11
+      },
+      "f1": 0.205607476635514,
+      "known_count": 193,
+      "negative_count": 181,
+      "positive_count": 12,
+      "precision": 0.11578947368421053,
+      "recall": 0.9166666666666666,
+      "specificity": 0.5359116022099447,
+      "threshold": 0.5
+    }
+  },
+  "device": "cuda",
+  "image_count": 214,
+  "run_id": "condition-human-review-seed42-20261127",
+  "selected_epoch": 7,
+  "selection_rule": "lowest combined validation loss",
+  "split": "validation_set",
+  "test_set_used_for_training_or_selection": false,
+  "threshold": 0.5
+}

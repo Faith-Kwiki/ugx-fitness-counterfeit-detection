@@ -27,3 +27,4 @@ models/*.h5
 *.onnx
 *.h5
 *checkpoint*
+!src/banknote/evaluation/evaluate_checkpoint.py
