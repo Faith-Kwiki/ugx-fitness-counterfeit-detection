@@ -14,13 +14,20 @@ condition or severity signals should be checked by a human reviewer.
 
 ## Open the project workspace
 
-From the repository root, with the project environment installed and activated:
+For one-click startup on Windows, double-click **Start UGX Banknote Lab.bat**
+in the project folder. If this copy does not already have its virtual
+environment, the launcher creates one with Python 3.12 and installs the pinned
+packages from `requirements.txt`. The first setup needs an internet connection
+and can take a while. Keep the window open while using the dashboard; press
+Ctrl+C in that window to stop it.
+
+You can also start it from PowerShell at the repository root:
 
 ~~~powershell
-python -m streamlit run app.py
+.\Start UGX Banknote Lab.bat
 ~~~
 
-Or use the environment's interpreter directly:
+Or run Streamlit directly after the environment is installed:
 
 ~~~powershell
 .\.venv\Scripts\python.exe -m streamlit run app.py
