@@ -1,0 +1,317 @@
+{
+  "accuracy": 0.8040201005025126,
+  "balanced_accuracy": 0.7242272347535507,
+  "class_order": [
+    "counterfeit",
+    "genuine_fit",
+    "genuine_unfit"
+  ],
+  "classes": {
+    "counterfeit": {
+      "f1": 0.905982905982906,
+      "precision": 0.8833333333333333,
+      "recall": 0.9298245614035088,
+      "support": 114
+    },
+    "genuine_fit": {
+      "f1": 0.7317073170731708,
+      "precision": 0.8490566037735849,
+      "recall": 0.6428571428571429,
+      "support": 70
+    },
+    "genuine_unfit": {
+      "f1": 0.43902439024390244,
+      "precision": 0.34615384615384615,
+      "recall": 0.6,
+      "support": 15
+    }
+  },
+  "confusion_matrix": [
+    [
+      106,
+      3,
+      5
+    ],
+    [
+      13,
+      45,
+      12
+    ],
+    [
+      1,
+      5,
+      9
+    ]
+  ],
+  "count": 199,
+  "label_provenance": "low-confidence rule-based prelabels; not independent ground truth",
+  "macro_f1": 0.6922382044333264,
+  "review_required_excluded": true,
+  "selected_using_test_set": false,
+  "severity_by_condition": {
+    "creased": {
+      "accuracy": 0.4731182795698925,
+      "balanced_accuracy": 0.3116324517825833,
+      "class_order": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "classes": {
+        "mild": {
+          "f1": 0.6267281105990783,
+          "precision": 0.6868686868686869,
+          "recall": 0.576271186440678,
+          "support": 118
+        },
+        "moderate": {
+          "f1": 0.31818181818181823,
+          "precision": 0.23728813559322035,
+          "recall": 0.4827586206896552,
+          "support": 29
+        },
+        "none": {
+          "f1": 0.19999999999999998,
+          "precision": 0.21428571428571427,
+          "recall": 0.1875,
+          "support": 32
+        },
+        "severe": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 7
+        }
+      },
+      "confusion_matrix": [
+        [
+          6,
+          17,
+          9,
+          0
+        ],
+        [
+          21,
+          68,
+          29,
+          0
+        ],
+        [
+          1,
+          14,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          7,
+          0
+        ]
+      ],
+      "count": 186,
+      "macro_f1": 0.2862274821952241
+    },
+    "folded": {
+      "accuracy": 0.23655913978494625,
+      "balanced_accuracy": 0.2795338441890166,
+      "class_order": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "classes": {
+        "mild": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 97
+        },
+        "moderate": {
+          "f1": 0.2878787878787879,
+          "precision": 0.18446601941747573,
+          "recall": 0.6551724137931034,
+          "support": 29
+        },
+        "none": {
+          "f1": 0.3649635036496351,
+          "precision": 0.30120481927710846,
+          "recall": 0.46296296296296297,
+          "support": 54
+        },
+        "severe": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 6
+        }
+      },
+      "confusion_matrix": [
+        [
+          25,
+          0,
+          29,
+          0
+        ],
+        [
+          48,
+          0,
+          49,
+          0
+        ],
+        [
+          10,
+          0,
+          19,
+          0
+        ],
+        [
+          0,
+          0,
+          6,
+          0
+        ]
+      ],
+      "count": 186,
+      "macro_f1": 0.16321057288210575
+    },
+    "soiled": {
+      "accuracy": 0.3977272727272727,
+      "balanced_accuracy": 0.3996101364522417,
+      "class_order": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "classes": {
+        "mild": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 25
+        },
+        "moderate": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 0
+        },
+        "none": {
+          "f1": 0.5743589743589743,
+          "precision": 0.9032258064516129,
+          "recall": 0.42105263157894735,
+          "support": 133
+        },
+        "severe": {
+          "f1": 0.2121212121212121,
+          "precision": 0.12280701754385964,
+          "recall": 0.7777777777777778,
+          "support": 18
+        }
+      },
+      "confusion_matrix": [
+        [
+          56,
+          0,
+          0,
+          77
+        ],
+        [
+          2,
+          0,
+          0,
+          23
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          0,
+          0,
+          14
+        ]
+      ],
+      "count": 176,
+      "macro_f1": 0.26216006216006216
+    },
+    "torn": {
+      "accuracy": 0.9891891891891892,
+      "balanced_accuracy": 0.5,
+      "class_order": [
+        "none",
+        "mild",
+        "moderate",
+        "severe"
+      ],
+      "classes": {
+        "mild": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 2
+        },
+        "moderate": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 0
+        },
+        "none": {
+          "f1": 0.9945652173913043,
+          "precision": 0.9891891891891892,
+          "recall": 1.0,
+          "support": 183
+        },
+        "severe": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "support": 0
+        }
+      },
+      "confusion_matrix": [
+        [
+          183,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "count": 185,
+      "macro_f1": 0.49728260869565216
+    }
+  },
+  "test_losses": {
+    "authenticity_loss": 0.2696227919516252,
+    "condition_loss": 0.7106709839710638,
+    "fitness_loss": 0.25992432850689146,
+    "loss": 1.1296103599682525,
+    "outcome_loss": 0.5104240456118656,
+    "severity_loss": 1.2365271350247178
+  }
+}

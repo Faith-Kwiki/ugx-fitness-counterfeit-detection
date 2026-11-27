@@ -46,7 +46,7 @@ A fresh BoU note can help a reviewer locate the expected layout and features. Fo
 
 ## Use in the project
 
-The current trained model predicts authenticity and four condition-presence labels. It does not yet predict condition severity or an approved fitness outcome. Do not describe the current checkpoint as making the three-way decision. The next model work needs reviewed severity and fitness labels, a validation-only rule/model choice, and a separate untouched evaluation set for the new outcome.
+The earlier condition-only checkpoint predicts authenticity and four condition-presence labels. A separate policy-corrected prototype has now been trained with authenticity and genuine-fitness heads, plus condition-presence and severity heads. It can compose the three outcomes and gives counterfeit priority. Its training labels are low-confidence prelabels, and its severity results are weak. Do not present it as an approved or operational BoU decision system. Better-reviewed labels and a stronger evaluation set are still needed.
 
 ## Current provisional prelabels
 
