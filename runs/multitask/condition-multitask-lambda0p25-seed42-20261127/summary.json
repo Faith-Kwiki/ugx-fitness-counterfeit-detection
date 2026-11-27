@@ -1,0 +1,105 @@
+{
+  "best_epoch": 13,
+  "best_val_loss": 0.44981569385974207,
+  "last_completed_epoch": 15,
+  "latest_validation": {
+    "authenticity_accuracy": 0.8598130841121495,
+    "authenticity_loss": 0.3847511329940546,
+    "condition_loss": 0.705086018437537,
+    "conditions": {
+      "creased": {
+        "accuracy": 0.6615384615384615,
+        "average_precision": 0.9554509674912787,
+        "confusion_matrix": {
+          "fn": 58,
+          "fp": 8,
+          "tn": 9,
+          "tp": 120
+        },
+        "f1": 0.7843137254901961,
+        "known_count": 195,
+        "negative_count": 17,
+        "positive_count": 178,
+        "precision": 0.9375,
+        "recall": 0.6741573033707865,
+        "specificity": 0.5294117647058824,
+        "threshold": 0.5
+      },
+      "folded": {
+        "accuracy": 0.6153846153846154,
+        "average_precision": 0.8594228366630413,
+        "confusion_matrix": {
+          "fn": 54,
+          "fp": 21,
+          "tn": 19,
+          "tp": 101
+        },
+        "f1": 0.7292418772563176,
+        "known_count": 195,
+        "negative_count": 40,
+        "positive_count": 155,
+        "precision": 0.8278688524590164,
+        "recall": 0.6516129032258065,
+        "specificity": 0.475,
+        "threshold": 0.5
+      },
+      "soiled": {
+        "accuracy": 0.6629213483146067,
+        "average_precision": 0.4691483127226159,
+        "confusion_matrix": {
+          "fn": 16,
+          "fp": 44,
+          "tn": 85,
+          "tp": 33
+        },
+        "f1": 0.5238095238095238,
+        "known_count": 178,
+        "negative_count": 129,
+        "positive_count": 49,
+        "precision": 0.42857142857142855,
+        "recall": 0.673469387755102,
+        "specificity": 0.6589147286821705,
+        "threshold": 0.5
+      },
+      "torn": {
+        "accuracy": 0.9690721649484536,
+        "average_precision": 0.7872791076279448,
+        "confusion_matrix": {
+          "fn": 2,
+          "fp": 4,
+          "tn": 181,
+          "tp": 7
+        },
+        "f1": 0.7000000000000001,
+        "known_count": 194,
+        "negative_count": 185,
+        "positive_count": 9,
+        "precision": 0.6363636363636364,
+        "recall": 0.7777777777777778,
+        "specificity": 0.9783783783783784,
+        "threshold": 0.5
+      }
+    },
+    "counterfeit": {
+      "accuracy": 0.8598130841121495,
+      "average_precision": 0.9663937129618716,
+      "confusion_matrix": {
+        "fn": 29,
+        "fp": 1,
+        "tn": 99,
+        "tp": 85
+      },
+      "f1": 0.8500000000000001,
+      "known_count": 214,
+      "negative_count": 100,
+      "positive_count": 114,
+      "precision": 0.9883720930232558,
+      "recall": 0.7456140350877193,
+      "specificity": 0.99,
+      "threshold": 0.5
+    },
+    "loss": 0.5610226270194366
+  },
+  "run_id": "condition-multitask-lambda0p25-seed42-20261127",
+  "status": "completed"
+}

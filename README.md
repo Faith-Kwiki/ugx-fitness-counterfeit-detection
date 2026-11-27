@@ -1,7 +1,11 @@
 # UGX Banknote Counterfeit and Fitness Research
 
-The current code trains a counterfeit-versus-genuine banknote classifier.
-The fitness task is still planned and needs its own definition and labels.
+The baseline suite trains a counterfeit-versus-genuine banknote classifier.
+The experimental multi-task model uses the same RGB, edge, and texture signals
+with one authenticity head and four independent condition heads: soiled,
+creased, torn, and folded. It does not create a joint fitness/authenticity
+class. These visible condition tags are not an official Bank of Uganda fitness
+rating.
 
 ## Set up the environment on Linux
 
@@ -71,6 +75,50 @@ photos of the same physical note.
 
 This is a long suite. It checks CUDA and the dataset before starting, uses
 separate run folders, and does not evaluate the test split.
+
+## Train the integrated authenticity and condition model
+
+The completed `annotations/condition_labels_template.csv` file supplies four
+independent yes/no condition targets. `uncertain` is treated as unknown for
+that condition and excluded from its loss; it is never changed to `no`. The
+model shares the RGB, edge, and texture features, then predicts authenticity
+and the four conditions through separate output heads. Training and model
+selection use only train and validation data.
+
+From the repository root, run:
+
+~~~powershell
+.\.venv\Scripts\python.exe -m src.banknote.training.train_multitask_multisignal --cache-dir data/processed/streams_v1_224 --run-id condition-tags-seed42
+~~~
+
+Each run saves its configuration, training history, validation summary, split
+manifest, and best checkpoint under `runs/multitask/`. Validation output
+reports per-condition precision, recall, F1, and average precision. Positive
+class weights are calculated from the training split and capped at 20 by
+default. The tear tag is sparse in the current data, so its results are
+exploratory and should not be treated as a reliable deployment estimate.
+Review validation results before selecting a checkpoint. Do not use the held-
+out test split to choose thresholds or models.
+
+An initial seed-42 sweep varied `--condition-loss-weight` across 1.0, 0.5,
+and 0.25. Best-checkpoint validation authenticity accuracy was 85.98%, 88.32%,
+and 89.25%, respectively; the same-split single-head baseline reached 90.65%.
+The equal task-loss weight of 1.0 was repeated across seeds 42, 43, and 44
+(998 training and 214 validation images each). Best-checkpoint validation
+results at threshold 0.5 were:
+
+| Seed | Authenticity accuracy | Soiled F1 | Creased F1 | Torn F1 | Folded F1 |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 42 | 0.860 | 0.522 | 0.789 | 0.727 | 0.727 |
+| 43 | 0.883 | 0.515 | 0.770 | 0.383 | 0.672 |
+| 44 | 0.907 | 0.515 | 0.735 | 0.243 | 0.699 |
+| Mean | 0.883 | 0.517 | 0.765 | 0.451 | 0.699 |
+
+The torn result varied across seeds and only nine validation images were
+positive for torn, so it is not a stable estimate. Condition scores remain
+exploratory until the visual labels receive human spot-review. The held-out
+test split was not used for training or model selection, and no test evaluation
+has been run for this model.
 
 ## Final test evaluation
 

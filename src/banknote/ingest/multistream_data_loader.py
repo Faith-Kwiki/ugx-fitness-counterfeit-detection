@@ -1,6 +1,7 @@
 """Data loading for the RGB, edge, and LBP multi-signal model."""
 
 from pathlib import Path
+import csv
 import hashlib
 
 import numpy as np
@@ -20,6 +21,7 @@ CLASS_LABELS = {
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 SPLIT_NAMES = ("train_set", "validation_set", "test_set")
+CONDITION_NAMES = ("soiled", "creased", "torn", "folded")
 
 
 def find_dataset_dir(data_root=Path("data/raw")):
@@ -111,6 +113,163 @@ class MultiStreamBanknoteDataset(Dataset):
             "texture": texture,
             "label": torch.tensor(label, dtype=torch.long),
         }
+
+
+class MultiTaskMultiStreamBanknoteDataset(MultiStreamBanknoteDataset):
+    """Multi-signal samples paired with four independent condition targets."""
+
+    def __init__(
+        self,
+        dataset_dir,
+        split,
+        annotations_csv=Path("annotations/condition_labels_template.csv"),
+        target_size=224,
+        cache_dir=None,
+    ):
+        super().__init__(dataset_dir, split, target_size, cache_dir=cache_dir)
+
+        project_root = Path(__file__).resolve().parents[3]
+        annotations_csv = Path(annotations_csv)
+        if not annotations_csv.is_absolute():
+            annotations_csv = project_root / annotations_csv
+        if not annotations_csv.is_file():
+            raise FileNotFoundError(
+                f"Condition annotation CSV not found: {annotations_csv}"
+            )
+
+        rows_by_id = {}
+        with annotations_csv.open("r", newline="", encoding="utf-8-sig") as handle:
+            reader = csv.DictReader(handle)
+            required = {
+                "image_id", "image_path", "split", "authenticity_label",
+                "soiled", "creased", "torn", "folded", "annotation_status",
+            }
+            missing_columns = required.difference(reader.fieldnames or ())
+            if missing_columns:
+                raise ValueError(
+                    "Condition annotation CSV is missing columns: "
+                    + ", ".join(sorted(missing_columns))
+                )
+            for row in reader:
+                image_id = row["image_id"].strip()
+                if not image_id:
+                    raise ValueError("Condition annotation CSV contains a blank image_id")
+                if image_id in rows_by_id:
+                    raise ValueError(f"Duplicate condition annotation image_id: {image_id}")
+                if row["annotation_status"].strip() != "complete":
+                    raise ValueError(f"Condition annotation is not complete: {image_id}")
+
+                values, masks = [], []
+                for name in CONDITION_NAMES:
+                    value = row[name].strip().lower()
+                    if value == "yes":
+                        values.append(1.0)
+                        masks.append(1.0)
+                    elif value == "no":
+                        values.append(0.0)
+                        masks.append(1.0)
+                    elif value == "uncertain":
+                        # Unknown for this tag, not a negative example.
+                        values.append(0.0)
+                        masks.append(0.0)
+                    else:
+                        raise ValueError(
+                            f"Invalid {name} tag {value!r} for {image_id}; "
+                            "expected yes, no, or uncertain"
+                        )
+                rows_by_id[image_id] = {
+                    "row": row,
+                    "values": values,
+                    "masks": masks,
+                }
+
+        split_rows = {
+            image_id: item for image_id, item in rows_by_id.items()
+            if item["row"]["split"].strip() == split
+        }
+        dataset_ids = {image_path.stem for image_path, _, _ in self.samples}
+        missing = sorted(dataset_ids.difference(split_rows))
+        extra = sorted(set(split_rows).difference(dataset_ids))
+        if missing or extra:
+            raise ValueError(
+                f"Condition labels do not match {split}: "
+                f"missing={len(missing)}, extra={len(extra)}"
+            )
+
+        self.condition_targets = {}
+        self.condition_masks = {}
+        self.condition_counts = {
+            name: {"yes": 0, "no": 0, "uncertain": 0}
+            for name in CONDITION_NAMES
+        }
+        for image_path, authenticity_label, _ in self.samples:
+            image_id = image_path.stem
+            item = split_rows[image_id]
+            row = item["row"]
+            expected_authenticity = (
+                "counterfeit" if authenticity_label == 0 else "genuine"
+            )
+            if row["authenticity_label"].strip() != expected_authenticity:
+                raise ValueError(
+                    f"Authenticity mismatch between image folder and annotations: {image_id}"
+                )
+            csv_path = Path(row["image_path"].replace("\\", "/"))
+            if csv_path.parts[-4:] != (
+                "splits", split, expected_authenticity, image_path.name
+            ):
+                raise ValueError(
+                    f"Image path/split mismatch in condition annotations: {image_id}"
+                )
+            self.condition_targets[image_id] = item["values"]
+            self.condition_masks[image_id] = item["masks"]
+            for index, name in enumerate(CONDITION_NAMES):
+                tag = row[name].strip().lower()
+                self.condition_counts[name][tag] += 1
+
+    def __getitem__(self, index):
+        sample = super().__getitem__(index)
+        image_path = self.samples[index][0]
+        image_id = image_path.stem
+        sample["condition_targets"] = torch.tensor(
+            self.condition_targets[image_id], dtype=torch.float32
+        )
+        sample["condition_mask"] = torch.tensor(
+            self.condition_masks[image_id], dtype=torch.float32
+        )
+        return sample
+
+
+def create_multitask_multistream_loaders(
+    dataset_dir,
+    annotations_csv=Path("annotations/condition_labels_template.csv"),
+    batch_size=8,
+    seed=42,
+    target_size=224,
+    cache_dir=None,
+):
+    """Create train and validation loaders; the held-out test split is untouched."""
+    train_dataset = MultiTaskMultiStreamBanknoteDataset(
+        dataset_dir, "train_set", annotations_csv, target_size, cache_dir
+    )
+    validation_dataset = MultiTaskMultiStreamBanknoteDataset(
+        dataset_dir, "validation_set", annotations_csv, target_size, cache_dir
+    )
+    generator = torch.Generator()
+    generator.manual_seed(seed)
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=0,
+        generator=generator,
+    )
+    validation_loader = DataLoader(
+        validation_dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=0,
+    )
+    return train_dataset, validation_dataset, train_loader, validation_loader
 
 
 def create_multistream_loaders(
