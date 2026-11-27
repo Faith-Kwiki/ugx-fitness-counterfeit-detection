@@ -47,3 +47,7 @@ A fresh BoU note can help a reviewer locate the expected layout and features. Fo
 ## Use in the project
 
 The current trained model predicts authenticity and four condition-presence labels. It does not yet predict condition severity or an approved fitness outcome. Do not describe the current checkpoint as making the three-way decision. The next model work needs reviewed severity and fitness labels, a validation-only rule/model choice, and a separate untouched evaluation set for the new outcome.
+
+## Current provisional prelabels
+
+`prototype_fitness_prelabels.csv` was generated from the existing authenticity and condition annotations plus their notes. The script in `scripts/build_prototype_fitness_prelabels.py` copies the existing tags and maps words such as “heavy,” “severe,” and “deep” to provisional severity; it is rule-based prelabeling, not a new independent visual review. It currently records 760 `counterfeit`, 476 `genuine_fit`, 90 `genuine_unfit`, and 100 `review_required` outcomes. Every row is marked low confidence. `genuine_fit` means no severe trigger was found in the four existing condition tags; adhesive/fastener, moisture, defacement, and complete-note checks remain uncertain unless explicitly documented. The `review_required` rows must not be forced into a training class. Review these prelabels and correct them before treating them as ground truth or reporting model performance.
