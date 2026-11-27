@@ -146,7 +146,13 @@ def resolve_image_path(row: dict | pd.Series) -> Path | None:
 @st.cache_resource(show_spinner="Loading the multi-signal model…")
 def load_model(checkpoint_bytes: bytes, device_name: str):
     device = torch.device(device_name)
-    payload = torch.load(io.BytesIO(checkpoint_bytes), map_location=device, weights_only=True)
+    # PyTorch 2.6+ treats weights_only as the default. This project's
+    # checkpoints store torch.__version__ as a TorchVersion object, so allow
+    # that specific safe metadata type while keeping weights_only enabled.
+    with torch.serialization.safe_globals([torch.torch_version.TorchVersion]):
+        payload = torch.load(
+            io.BytesIO(checkpoint_bytes), map_location=device, weights_only=True
+        )
     model = FitnessMultiTaskMultiSignalCNN().to(device)
     model.load_state_dict(payload["model_state_dict"])
     model.eval()
