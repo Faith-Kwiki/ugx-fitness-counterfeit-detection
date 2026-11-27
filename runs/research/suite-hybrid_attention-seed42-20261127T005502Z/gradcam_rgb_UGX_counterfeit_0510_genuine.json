@@ -1,0 +1,11 @@
+{
+  "run_id": "suite-hybrid_attention-seed42-20261127T005502Z",
+  "model": "hybrid_attention",
+  "image": "data\\raw\\Ugandan banknote image dataset for genuine and cou\\labelled_ugandan_banknote_dataset_clean\\splits\\test_set\\counterfeit\\UGX_counterfeit_0510.jpg",
+  "signal": "rgb",
+  "predicted_class": "genuine",
+  "explained_class": "genuine",
+  "explained_class_probability": 0.9772545099258423,
+  "heatmap": "runs\\research\\suite-hybrid_attention-seed42-20261127T005502Z\\gradcam_rgb_UGX_counterfeit_0510_genuine.png",
+  "interpretation_note": "Grad-CAM highlights regions associated with this prediction; it does not prove causal use of a security feature."
+}

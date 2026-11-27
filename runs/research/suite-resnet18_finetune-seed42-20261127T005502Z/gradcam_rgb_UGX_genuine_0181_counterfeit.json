@@ -1,0 +1,11 @@
+{
+  "run_id": "suite-resnet18_finetune-seed42-20261127T005502Z",
+  "model": "resnet18_finetune",
+  "image": "data\\raw\\Ugandan banknote image dataset for genuine and cou\\labelled_ugandan_banknote_dataset_clean\\splits\\test_set\\genuine\\UGX_genuine_0181.jpg",
+  "signal": "rgb",
+  "predicted_class": "counterfeit",
+  "explained_class": "counterfeit",
+  "explained_class_probability": 0.9561489224433899,
+  "heatmap": "runs\\research\\suite-resnet18_finetune-seed42-20261127T005502Z\\gradcam_rgb_UGX_genuine_0181_counterfeit.png",
+  "interpretation_note": "Grad-CAM highlights regions associated with this prediction; it does not prove causal use of a security feature."
+}

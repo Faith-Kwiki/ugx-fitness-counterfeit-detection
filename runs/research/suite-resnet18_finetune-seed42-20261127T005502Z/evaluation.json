@@ -1,0 +1,35 @@
+{
+  "run_id": "suite-resnet18_finetune-seed42-20261127T005502Z",
+  "model": "resnet18_finetune",
+  "checkpoint": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\research\\suite-resnet18_finetune-seed42-20261127T005502Z\\best_checkpoint.pth",
+  "data_split": "test_set",
+  "test_images": 214,
+  "class_counts": {
+    "counterfeit": 114,
+    "genuine": 100
+  },
+  "prediction_rule": "argmax of the two model logits; no threshold tuned on the test set",
+  "device": "cuda",
+  "predictions_csv": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\research\\suite-resnet18_finetune-seed42-20261127T005502Z\\test_predictions.csv",
+  "metrics": {
+    "accuracy": 0.9626168224299065,
+    "counterfeit_precision": 0.9732142857142857,
+    "counterfeit_recall": 0.956140350877193,
+    "counterfeit_f1": 0.9646017699115044,
+    "counterfeit_false_acceptance_rate": 0.043859649122807015,
+    "genuine_false_rejection_rate": 0.03,
+    "balanced_accuracy": 0.9630701754385964,
+    "matthews_correlation_coefficient": 0.9251670028932181,
+    "roc_auc_counterfeit": 0.9946491228070174,
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        109,
+        5
+      ],
+      [
+        3,
+        97
+      ]
+    ]
+  }
+}

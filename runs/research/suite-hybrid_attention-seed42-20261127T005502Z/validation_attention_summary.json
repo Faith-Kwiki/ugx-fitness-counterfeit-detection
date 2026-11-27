@@ -1,0 +1,33 @@
+{
+  "run_id": "suite-hybrid_attention-seed42-20261127T005502Z",
+  "data_split": "validation_set",
+  "fusion": "learned scalar attention over RGB, edges, texture",
+  "image_count": 214,
+  "signals": [
+    "rgb",
+    "edges",
+    "texture"
+  ],
+  "overall_mean": [
+    0.9479295967895294,
+    0.003941503299561233,
+    0.04812890307751493
+  ],
+  "overall_std": [
+    0.029985457663686314,
+    0.001989041305322779,
+    0.028664568918392253
+  ],
+  "by_true_class_mean": {
+    "counterfeit": [
+      0.9259899661206362,
+      0.0048908986888515455,
+      0.06911914411670807
+    ],
+    "genuine": [
+      0.9729407757520676,
+      0.002859192555770278,
+      0.02420002829283476
+    ]
+  }
+}

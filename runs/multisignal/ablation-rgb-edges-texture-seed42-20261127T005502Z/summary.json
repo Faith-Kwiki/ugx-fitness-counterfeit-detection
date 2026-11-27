@@ -1,0 +1,8 @@
+{
+  "best_epoch": 15,
+  "best_val_accuracy": 0.9065420560747663,
+  "best_val_loss": 0.22658566044312772,
+  "last_completed_epoch": 15,
+  "run_id": "ablation-rgb-edges-texture-seed42-20261127T005502Z",
+  "status": "completed"
+}

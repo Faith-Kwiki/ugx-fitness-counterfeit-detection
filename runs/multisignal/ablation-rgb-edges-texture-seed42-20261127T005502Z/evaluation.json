@@ -1,0 +1,35 @@
+{
+  "run_id": "ablation-rgb-edges-texture-seed42-20261127T005502Z",
+  "model": "multisignal_concat",
+  "checkpoint": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\multisignal\\ablation-rgb-edges-texture-seed42-20261127T005502Z\\best_checkpoint.pth",
+  "data_split": "test_set",
+  "test_images": 214,
+  "class_counts": {
+    "counterfeit": 114,
+    "genuine": 100
+  },
+  "prediction_rule": "argmax of the two model logits; no threshold tuned on the test set",
+  "device": "cuda",
+  "predictions_csv": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\multisignal\\ablation-rgb-edges-texture-seed42-20261127T005502Z\\test_predictions.csv",
+  "metrics": {
+    "accuracy": 0.8925233644859814,
+    "counterfeit_precision": 0.9026548672566371,
+    "counterfeit_recall": 0.8947368421052632,
+    "counterfeit_f1": 0.8986784140969163,
+    "counterfeit_false_acceptance_rate": 0.10526315789473684,
+    "genuine_false_rejection_rate": 0.11,
+    "balanced_accuracy": 0.8923684210526316,
+    "matthews_correlation_coefficient": 0.7842897867457977,
+    "roc_auc_counterfeit": 0.9597368421052631,
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        102,
+        12
+      ],
+      [
+        11,
+        89
+      ]
+    ]
+  }
+}

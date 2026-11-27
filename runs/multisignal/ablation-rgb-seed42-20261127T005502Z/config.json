@@ -1,0 +1,35 @@
+{
+  "architecture": "SignalAblationCNN",
+  "batch_size": 8,
+  "class_mapping": {
+    "counterfeit": 0,
+    "genuine": 1
+  },
+  "dataset_folder_name": "labelled_ugandan_banknote_dataset_clean",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "epochs_requested": 15,
+  "fusion": "concatenation",
+  "image_size": 224,
+  "learning_rate": 0.001,
+  "model": "signal_ablation",
+  "numpy_version": "2.5.4",
+  "opencv_version": "5.0.0",
+  "optimizer": "Adam",
+  "preprocessing_cache": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\data\\processed\\streams_v1_224",
+  "python_version": "3.12.14",
+  "run_id": "ablation-rgb-seed42-20261127T005502Z",
+  "scheduler": null,
+  "seed": 42,
+  "selection_rule": "lowest validation cross-entropy loss",
+  "signals": [
+    "rgb"
+  ],
+  "split_manifest": "split_manifest.csv",
+  "test_set_used_for_training_or_selection": false,
+  "torch_version": "2.14.1+cu130",
+  "total_parameters": 32386,
+  "train_images": 998,
+  "trainable_parameters": 32386,
+  "validation_images": 214
+}

@@ -1,0 +1,35 @@
+{
+  "run_id": "suite-hybrid_attention-seed42-20261127T005502Z",
+  "model": "hybrid_attention",
+  "checkpoint": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\research\\suite-hybrid_attention-seed42-20261127T005502Z\\best_checkpoint.pth",
+  "data_split": "test_set",
+  "test_images": 214,
+  "class_counts": {
+    "counterfeit": 114,
+    "genuine": 100
+  },
+  "prediction_rule": "argmax of the two model logits; no threshold tuned on the test set",
+  "device": "cuda",
+  "predictions_csv": "C:\\Users\\clare\\OneDrive\\Desktop\\ugx-fitness-counterfeit-detection\\runs\\research\\suite-hybrid_attention-seed42-20261127T005502Z\\test_predictions.csv",
+  "metrics": {
+    "accuracy": 0.9299065420560748,
+    "counterfeit_precision": 0.9304347826086956,
+    "counterfeit_recall": 0.9385964912280702,
+    "counterfeit_f1": 0.9344978165938864,
+    "counterfeit_false_acceptance_rate": 0.06140350877192982,
+    "genuine_false_rejection_rate": 0.08,
+    "balanced_accuracy": 0.9292982456140351,
+    "matthews_correlation_coefficient": 0.8591619153863097,
+    "roc_auc_counterfeit": 0.9778070175438597,
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        107,
+        7
+      ],
+      [
+        8,
+        92
+      ]
+    ]
+  }
+}
