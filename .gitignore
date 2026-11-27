@@ -28,3 +28,5 @@ models/*.h5
 *.h5
 *checkpoint*
 !src/banknote/evaluation/evaluate_checkpoint.py
+# This compact prototype checkpoint is required by the Streamlit demo.
+!runs/fitness/prototype-fitness-policy-seed42-20261127/best_checkpoint.pth

@@ -38,10 +38,11 @@ the current experiment; **Assess a note** accepts an image; **Review labels**
 lets you edit a prelabel and download a reviewed CSV; **Metrics** shows the
 three-outcome and condition-severity results; **Project roadmap** contains the
 working rule and project status. The trained checkpoint is stored locally in
-`runs/fitness/prototype-fitness-policy-seed42-20261127/` and is excluded from
-Git. If it is elsewhere, set its path in the sidebar. The source dataset is
-also excluded from Git; set its folder in the sidebar to display annotation
-images.
+`runs/fitness/prototype-fitness-policy-seed42-20261127/` and the selected
+`best_checkpoint.pth` is included in Git so note assessment works after cloning
+the project on another PC. Other checkpoints remain excluded by default. The
+source dataset is excluded from Git; copy it separately and set its folder in
+the sidebar to display annotation images.
 
 Review changes are kept in the browser session and saved to your computer only
 when you download the reviewed CSV. The app does not overwrite annotation
