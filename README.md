@@ -116,9 +116,12 @@ results at threshold 0.5 were:
 
 The torn result varied across seeds and only nine validation images were
 positive for torn, so it is not a stable estimate. Condition scores remain
-exploratory until the visual labels receive human spot-review. The held-out
-test split was not used for training or model selection, and no test evaluation
-has been run for this model.
+exploratory until the visual labels receive human spot-review. A blinded
+39-image validation review packet is available in
+`annotations/condition_spot_review_blind.csv`; compare completed judgments with
+`annotations/condition_spot_review_key.csv` only after the blind review. The
+held-out test split was not used for training or model selection, and no test
+evaluation has been run for this model.
 
 ## Final test evaluation
 

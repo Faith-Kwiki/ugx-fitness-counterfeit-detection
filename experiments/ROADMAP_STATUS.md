@@ -16,6 +16,7 @@
 - `uncertain` means the visible evidence for that tag is unclear. It is masked during training and is not treated as a negative label.
 - The annotation guide defines visible image-level conditions; these labels are not an official Bank of Uganda fitness rating and do not yet define one joint fitness class.
 - Current train/validation counts show only 24 positive torn labels in training and 9 in validation. Tear-head results therefore need cautious interpretation and more reviewed examples before strong claims.
+- `annotations/condition_spot_review_blind.csv` and `annotations/condition_spot_review_key.csv` prepare a blinded, 39-image validation-only spot-review. The packet includes all 9 torn-positive validation images, 9 torn-negative images balanced across authenticity labels, and stratified examples of the other conditions. No annotations have been changed by this preparation; a person still needs to complete the blind review and resolve disagreements.
 
 ## Integrated multi-task model
 
@@ -39,6 +40,6 @@
 
 - Optional W&B tracking is not enabled. Local run folders already record metrics and configuration; W&B would send selected metadata to an external service and should only be enabled deliberately.
 - The four visible condition outputs are a first fitness-related signal. A single fitness class still needs an agreed definition and, if required by the research question, an authoritative rating guide and labels.
-- Human-review a stratified sample of visual condition annotations, especially torn-positive examples, before treating these tags as ground truth. Then assess whether annotation revisions change the validation results. Keep the test split sealed until the model and thresholds are selected.
+- Complete the prepared validation spot-review, compare it with the separate key, resolve disagreements, and update affected annotations. Then assess whether annotation revisions change the validation results. Keep the test split sealed until the model and thresholds are selected.
 
 Attention is implemented as a candidate for comparison, not proof that it improves performance. Compare it with hybrid concatenation using the same seed and settings. Use validation results for selection; reserve test metrics for final reporting.

@@ -24,3 +24,9 @@ Choose yes, no, or uncertain for each tag. Tags are independent: an image can ha
 - **Folded:** the note is visibly bent over itself or has a clear fold shape in the image. A flat note that only shows an old crease is creased, not automatically folded.
 
 These are image-level visual tags for annotation consistency, not an official Bank of Uganda fitness standard. The template contains existing authenticity labels and split names as context; those labels must not be changed. The model should not learn from unreviewed blank tags. After condition labels are reviewed, they can supervise separate condition outputs while the authenticity output is retained. A combined class can be considered later, once the annotations and labeling rule have been reviewed.
+
+## Validation spot-review packet
+
+`condition_spot_review_blind.csv` contains a 39-image validation-only sample. It includes all 9 validation images currently tagged torn, 9 torn-negative examples balanced across authenticity labels, and additional positive and negative examples for soiled, creased, and folded. Some images represent more than one tag group.
+
+Review the images using the definitions above and enter `yes`, `no`, or `uncertain` in the four `review_` columns. Record reviewer name, confidence (`low`, `medium`, or `high`), and any short explanation. Do not open `condition_spot_review_key.csv` until the blind review is complete. Then compare by `review_id`, note disagreements, and update the main annotation file only after resolving them. This packet does not include test images, and completing it does not by itself establish an official fitness rating.
