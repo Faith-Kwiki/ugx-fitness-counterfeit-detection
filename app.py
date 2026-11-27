@@ -316,7 +316,7 @@ def page_assess(checkpoint_path: Path):
     left, right = st.columns([1, 1.2])
     with left:
         st.image(result["display_image"], caption=uploaded_image.name, width="stretch")
-        st.caption(f"Checkpoint: {Path(checkpoint_source).name if checkpoint_source else 'uploaded model'} · {device.upper()}")
+        st.caption(f"Checkpoint: {Path(checkpoint_source).name if checkpoint_source else 'uploaded model'} · {device.type.upper()}")
     with right:
         outcome = result["outcome"]
         st.markdown(f'<div class="decision"><div class="eyebrow" style="color:#147d78">Prototype suggestion</div><h2>{OUTCOME_DISPLAY[outcome]}</h2></div>', unsafe_allow_html=True)
