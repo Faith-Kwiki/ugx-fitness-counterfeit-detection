@@ -1,31 +1,45 @@
-# UGX Banknote Counterfeit and Fitness Research
+# UGX Banknote Counterfeit and Circulation Fitness Research
 
-The baseline suite trains a counterfeit-versus-genuine banknote classifier.
-The experimental multi-task model uses the same RGB, edge, and texture signals
-with one authenticity head and four independent condition heads: soiled,
-creased, torn, and folded. It does not create a joint fitness/authenticity
-class. These visible condition tags are not an official Bank of Uganda fitness
-rating.
+This project studies banknote authenticity and physical condition using RGB,
+edge, and texture signals. Its current research model has separate authenticity,
+fitness, condition-presence, and condition-severity outputs. An authenticity-
+first decision rule combines these into **counterfeit**, **genuine and fit for
+circulation**, or **genuine and unfit for circulation**.
 
-## Intended integrated decision and Streamlit app
+The Streamlit workspace brings image assessment, prelabel review, experiment
+metrics, and roadmap notes into one local dashboard. Its model is still a
+research prototype: it was trained and evaluated with low-confidence,
+rule-derived labels. Its scores are not verified Bank of Uganda decisions, and
+condition or severity signals should be checked by a human reviewer.
 
-The intended final decision is **counterfeit**, **genuine and fit for
-circulation**, or **genuine and unfit for circulation**. Counterfeit status
-takes priority even when the note also has visible damage. For genuine notes,
-the result should include reviewed reasons such as soiled, creased, torn, or
-folded.
+## Open the project workspace
 
-The current condition labels record presence, not severity. The model cannot
-support claims such as “heavily creased” until a severity scale is agreed and
-the images receive severity labels. The current multi-task model concatenates
-RGB, edge, and texture features. The separate attention model is a binary
-authenticity classifier; an attention-based multi-task model with fitness and
-severity outputs remains to be built and evaluated.
+From the repository root, with the project environment installed and activated:
 
-The project includes Streamlit in its dependencies but has no Streamlit app
-yet. The planned app can bring together image assessment, condition reasons,
-annotation review, and experiment metrics after the fitness rule and labels
-are agreed.
+~~~powershell
+python -m streamlit run app.py
+~~~
+
+Or use the environment's interpreter directly:
+
+~~~powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py
+~~~
+
+Streamlit opens the dashboard in your browser. The **Overview** page summarizes
+the current experiment; **Assess a note** accepts an image; **Review labels**
+lets you edit a prelabel and download a reviewed CSV; **Metrics** shows the
+three-outcome and condition-severity results; **Project roadmap** contains the
+working rule and project status. The trained checkpoint is stored locally in
+`runs/fitness/prototype-fitness-policy-seed42-20261127/` and is excluded from
+Git. If it is elsewhere, set its path in the sidebar. The source dataset is
+also excluded from Git; set its folder in the sidebar to display annotation
+images.
+
+Review changes are kept in the browser session and saved to your computer only
+when you download the reviewed CSV. The app does not overwrite annotation
+sources. The app also looks for the dataset beside this Codex worktree; you can
+change or set the folder in the sidebar if the images are stored elsewhere.
 
 ## Set up the environment on Linux
 
