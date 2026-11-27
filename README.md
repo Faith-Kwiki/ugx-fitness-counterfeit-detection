@@ -7,6 +7,26 @@ creased, torn, and folded. It does not create a joint fitness/authenticity
 class. These visible condition tags are not an official Bank of Uganda fitness
 rating.
 
+## Intended integrated decision and Streamlit app
+
+The intended final decision is **counterfeit**, **genuine and fit for
+circulation**, or **genuine and unfit for circulation**. Counterfeit status
+takes priority even when the note also has visible damage. For genuine notes,
+the result should include reviewed reasons such as soiled, creased, torn, or
+folded.
+
+The current condition labels record presence, not severity. The model cannot
+support claims such as “heavily creased” until a severity scale is agreed and
+the images receive severity labels. The current multi-task model concatenates
+RGB, edge, and texture features. The separate attention model is a binary
+authenticity classifier; an attention-based multi-task model with fitness and
+severity outputs remains to be built and evaluated.
+
+The project includes Streamlit in its dependencies but has no Streamlit app
+yet. The planned app can bring together image assessment, condition reasons,
+annotation review, and experiment metrics after the fitness rule and labels
+are agreed.
+
 ## Set up the environment on Linux
 
 Use Python 3.12 for the tested project setup. From the repository root:
