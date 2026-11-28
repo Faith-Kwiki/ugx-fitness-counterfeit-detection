@@ -37,14 +37,14 @@ if errorlevel 1 (
 )
 
 rem If this project's dashboard is already running, open it instead of starting a duplicate.
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $r = Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost:8501/_stcore/health' -TimeoutSec 2; if ($r.StatusCode -eq 200 -and $r.Content.Trim() -eq 'ok') { exit 0 } } catch {}; exit 1" >nul 2>nul
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $r = Invoke-WebRequest -UseBasicParsing -Uri 'http://localhost:8502/_stcore/health' -TimeoutSec 2; if ($r.StatusCode -eq 200 -and $r.Content.Trim() -eq 'ok') { exit 0 } } catch {}; exit 1" >nul 2>nul
 if not errorlevel 1 (
-    start "" "http://localhost:8501"
+    start "" "http://localhost:8502"
     exit /b 0
 )
 
 echo Starting UGX Banknote Lab...
-"%PYTHON%" -m streamlit run "%PROJECT_DIR%app.py" --server.port 8501
+"%PYTHON%" -m streamlit run "%PROJECT_DIR%app.py" --server.port 8502
 if errorlevel 1 (
     echo The dashboard stopped because of an error.
     pause
